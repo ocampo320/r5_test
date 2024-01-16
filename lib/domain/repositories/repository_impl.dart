@@ -8,31 +8,49 @@ class RepositoryImpl implements Repository {
   final RemoteDataSource remoteDataSource;
   RepositoryImpl(this.remoteDataSource);
 
-
-
-
-
   @override
-  Future<Either<CommonFailure, bool>> addTodo(Todo booking) async {
-    // TODO: implement getTodos
-    throw UnimplementedError();
+  Future<Either<CommonFailure, bool>> addTodo(Todo todo) async {
+    try {
+      // Llama al método de RemoteDataSource para guardar el Todo
+      await remoteDataSource.saveData("todo", todo.toJson());
+      return const Right(true); // Indica que la operación fue exitosa
+    } catch (e) {
+      // Manejo de errores, puedes personalizar según tus necesidades
+      return left(CommonFailure.data(message: e.toString()));
+    }
   }
 
   @override
-  Future<Either<CommonFailure, List<Todo>>> getTodo() async {
-   // TODO: implement getTodos
-    throw UnimplementedError();
+  Future<Either<CommonFailure, List<Todo>>> getTodos() async {
+    try {
+      // Llama al método de RemoteDataSource para obtener la lista de Todos
+      final todos = await remoteDataSource.fetchData("todo");
+      final List<Todo> todosResponse =
+          todos.map((data) => Todo.fromJson(data)).toList();
+
+      return Right(todosResponse); // Retorna la lista de Todos
+    } catch (e) {
+      // Manejo de errores, puedes personalizar según tus necesidades
+      return left(CommonFailure.data(message: e.toString()));
+    }
   }
 
   @override
   Future<Either<CommonFailure, bool>> deleteTodo(Todo todo) async {
-   // TODO: implement getTodos
-    throw UnimplementedError();
+    try {
+      // Llama al método de RemoteDataSource para eliminar el Todo
+      await remoteDataSource.deleteData("todo", todo.id.toString());
+      return const Right(true); // Indica que la operación fue exitosa
+    } catch (e) {
+      // Manejo de errores, puedes personalizar según tus necesidades
+
+      return left(CommonFailure.data(message: e.toString()));
+    }
+  }
 }
 
-  @override
-  Future<Either<CommonFailure, List<Todo>>> getTodos() {
-    // TODO: implement getTodos
-    throw UnimplementedError();
-  }
+@override
+Future<Either<CommonFailure, List<Todo>>> getTodos() {
+  // TODO: implement getTodos
+  throw UnimplementedError();
 }
