@@ -36,10 +36,10 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<CommonFailure, bool>> deleteTodo(Todo todo) async {
+  Future<Either<CommonFailure, bool>> deleteTodo(String todo) async {
     try {
       // Llama al método de RemoteDataSource para eliminar el Todo
-      await remoteDataSource.deleteData("todo", todo.id.toString());
+      await remoteDataSource.deleteData("todo", todo);
       return const Right(true); // Indica que la operación fue exitosa
     } catch (e) {
       // Manejo de errores, puedes personalizar según tus necesidades

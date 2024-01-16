@@ -10,7 +10,7 @@ class DeleteTodoImpl implements DeleteTodo {
   DeleteTodoImpl(this.repository);
 
   @override
-  Future<Either<CommonFailure, bool>> call(Todo todo) {
+  Future<Either<CommonFailure, bool>> call(String todo) {
     return repository.deleteTodo(todo);
   }
 }
