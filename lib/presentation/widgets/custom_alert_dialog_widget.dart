@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:r5_test/app_string.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   final String title;
@@ -22,14 +23,14 @@ class CustomAlertDialog extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop(); // Cerrar el diálogo
           },
-          child: const Text('Cancelar'),
+          child: const Text(AppStrings.cancel),
         ),
         TextButton(
           onPressed: () {
             onConfirm(); // Llamar a la función de confirmación
             Navigator.of(context).pop(); // Cerrar el diálogo
           },
-          child: const Text('Confirmar'),
+          child: const Text(AppStrings.accept),
         ),
       ],
     );

@@ -27,7 +27,6 @@ class RepositoryImpl implements Repository {
       final todos = await remoteDataSource.fetchData("tu_coleccion");
       final List<Todo> todosResponse =
           todos.map((data) => Todo.fromJson(data)).toList();
-      print(todosResponse.toString());
       return Right(todosResponse); // Retorna la lista de Todos
     } catch (e) {
       // Manejo de errores, puedes personalizar según tus necesidades
@@ -39,7 +38,7 @@ class RepositoryImpl implements Repository {
   Future<Either<CommonFailure, bool>> deleteTodo(String todo) async {
     try {
       // Llama al método de RemoteDataSource para eliminar el Todo
-      await remoteDataSource.deleteData("todo", todo);
+      await remoteDataSource.deleteData("tu_coleccion", todo);
       return const Right(true); // Indica que la operación fue exitosa
     } catch (e) {
       // Manejo de errores, puedes personalizar según tus necesidades

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:r5_test/app_string.dart';
 import 'package:r5_test/di/app_module.dart';
 import 'package:r5_test/domain/entities/todo.dart';
 import 'package:r5_test/presentation/blocs/todo_bloc.dart';
@@ -27,12 +28,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     bookingBloc!.getTodos();
-    Map<String, dynamic> misDatos = {
-      "title": "Ejemplo de título",
-      "description": "Ejemplo de descripción",
-      "status": "Ejemplo de estado",
-      "date": "Ejemplo de fecha",
-    };
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -42,10 +37,11 @@ class _HomeViewState extends State<HomeView> {
                 context: context,
                 builder: (BuildContext context) {
                   return CustomAlertDialog(
-                    title: 'Confirmación',
+                    title: AppStrings.accept,
                     content: AddTodoFormContent(bookingBloc: bookingBloc),
-                    onConfirm: () {
+                    onConfirm: () async {
                       bookingBloc?.saveTodo();
+                      await bookingBloc?.getTodos();
                     },
                   );
                 },
@@ -60,15 +56,36 @@ class _HomeViewState extends State<HomeView> {
 
               if (todos.isEmpty) {
                 return const Center(
-                  child: Text('No hay elementos en la lista'),
+                  child: Text(AppStrings.noElements),
                 );
               }
 
-              return ListView.builder(
-                itemCount: todos.length,
-                itemBuilder: (context, index) {
-                  return CustomTodoCardWidget(todo: todos[index]);
-                },
+              return Padding(
+                padding: const EdgeInsets.only(
+                    left: 16, right: 16, top: 16, bottom: 16),
+                child: ListView.builder(
+                  itemCount: todos.length,
+                  itemBuilder: (context, index) {
+                    return CustomTodoCardWidget(
+                      todo: todos[index],
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return CustomAlertDialog(
+                              title: AppStrings.alert,
+                              content: const Text(AppStrings.deleteMesagges),
+                              onConfirm: () async {
+                                bookingBloc
+                                    ?.deleteTodos(todos[index].id.toString());
+                              },
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(

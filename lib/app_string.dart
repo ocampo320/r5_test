@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String deleteMesagges = 'Esta seguro que desea eliminar la reserva';
+  static const String deleteMesagges = 'Esta seguro que desea eliminar';
   static const String alert = 'Alerta!';
   static const String accept = 'Aceptar';
   static const String name = 'Nombre';
@@ -10,5 +10,7 @@ class AppStrings {
   static const String save = "Guardar";
   static const String noMoreMessages = 'Ya no puede agendar mas usuario';
   static const String booking = 'Reservar';
+  static const String noElements = 'No hay elementos en la lista';
+  static const String cancel = 'Cancelar';
   
 }

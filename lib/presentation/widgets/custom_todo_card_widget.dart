@@ -3,29 +3,31 @@ import 'package:r5_test/domain/entities/todo.dart';
 
 class CustomTodoCardWidget extends StatelessWidget {
   final Todo todo;
+  final VoidCallback ? onTap;
 
-  const CustomTodoCardWidget({super.key, required this.todo});
+  const CustomTodoCardWidget({super.key, required this.todo, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
-      margin: const EdgeInsets.all(8),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
+      elevation: 2,
+      child: ListTile(
+        leading: GestureDetector(
+          onTap: onTap,
+          child:  const Icon(Icons.delete),
+        ),
+        title: Text(
+          todo.title ?? "",
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              todo.title??"",
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              todo.description??"",
+              todo.description ?? "",
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),

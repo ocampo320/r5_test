@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:r5_test/date_util.dart';
 import 'package:r5_test/domain/entities/todo.dart';
 import 'package:r5_test/domain/usecase/add_todo.dart';
 import 'package:r5_test/domain/usecase/delete_todo.dart';
@@ -68,12 +72,14 @@ class BookingBloc {
 
   // Método para guardar un nuevo todo
   void saveTodo() async {
+   var id= FirebaseFirestore.instance.collection('tu_coleccion').doc().id;
     Todo todo = Todo(
-      status: "ff",
-        date: _dateController.value.toString(),
+        id:id,
+        status: "Active",
+        date:DateUtils.formatDate(_dateController.value) ,
         description: _descriptionController.value,
         title: _titleController.value);
-        
+
     try {
       await addTodo.call(todo);
       _loadTodos(); // Recargar la lista después de guardar
