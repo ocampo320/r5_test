@@ -26,11 +26,11 @@ class AddTodoFormContent extends StatelessWidget {
               builder: (context, snapshot) {
                 return CustomDatePicker(
                   selectedDate: snapshot.data ?? DateTime.now(),
-                  onDateChanged: (newDate) {
-                    bookingBloc?.selectedDate = newDate;
+                  onDateChanged: (dateTime) {
+                    bookingBloc?.setDate(dateTime);
                   },
                 );
-              }),
+              })
         ],
       ),
     );
