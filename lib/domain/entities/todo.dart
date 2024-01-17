@@ -3,7 +3,7 @@ class Todo {
   String? title;
   String? description;
   String? status;
-  DateTime? date;
+  String? date;
 
   Todo({this.title, this.description, this.status, this.date,this.id});
 

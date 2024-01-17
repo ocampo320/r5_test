@@ -13,7 +13,13 @@ class BookingBloc {
   final _todosController = BehaviorSubject<List<Todo>>();
   final _todoController = BehaviorSubject<Todo>();
   final _stateController = BehaviorSubject<TodoState>();
+  late BehaviorSubject<DateTime> _dateController;
+  late DateTime _selectedDate;
+ // Getter para obtener el stream
+  Stream<DateTime> get dateStream => _dateController.stream;
 
+  // Getter para obtener la fecha actual
+  DateTime get selectedDate => _selectedDate;
   // Stream para escuchar la lista de todos
   Stream<List<Todo>> get todosStream => _todosController.stream;
   Stream<Todo> get todoStream => _todoController.stream;
@@ -26,6 +32,13 @@ class BookingBloc {
   }) {
     // Inicializar la lista de todos
     _loadTodos();
+     _dateController = BehaviorSubject<DateTime>.seeded(_selectedDate);
+  }
+
+// Setter para cambiar la fecha y agregar al stream
+  set selectedDate(DateTime newDate) {
+    _selectedDate = newDate;
+    _dateController.add(_selectedDate);
   }
 
   // Método para cargar todos

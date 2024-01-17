@@ -24,10 +24,10 @@ class RepositoryImpl implements Repository {
   Future<Either<CommonFailure, List<Todo>>> getTodos() async {
     try {
       // Llama al método de RemoteDataSource para obtener la lista de Todos
-      final todos = await remoteDataSource.fetchData("todo");
+      final todos = await remoteDataSource.fetchData("tu_coleccion");
       final List<Todo> todosResponse =
           todos.map((data) => Todo.fromJson(data)).toList();
-
+      print(todosResponse.toString());
       return Right(todosResponse); // Retorna la lista de Todos
     } catch (e) {
       // Manejo de errores, puedes personalizar según tus necesidades
