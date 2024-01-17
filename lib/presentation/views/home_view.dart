@@ -20,7 +20,6 @@ BookingBloc? bookingBloc;
 class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     bookingBloc = AppModule().provideBookingBloc();
   }
@@ -46,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
                     title: 'Confirmación',
                     content: AddTodoFormContent(bookingBloc: bookingBloc),
                     onConfirm: () {
-                      // Lógica a realizar cuando el usuario confirma
+                      bookingBloc?.saveTodo();
                     },
                   );
                 },

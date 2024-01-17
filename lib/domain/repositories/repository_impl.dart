@@ -12,7 +12,7 @@ class RepositoryImpl implements Repository {
   Future<Either<CommonFailure, bool>> addTodo(Todo todo) async {
     try {
       // Llama al método de RemoteDataSource para guardar el Todo
-      await remoteDataSource.saveData("todo", todo.toJson());
+      await remoteDataSource.saveData("tu_coleccion", todo.toJson());
       return const Right(true); // Indica que la operación fue exitosa
     } catch (e) {
       // Manejo de errores, puedes personalizar según tus necesidades

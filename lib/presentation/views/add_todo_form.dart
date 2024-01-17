@@ -16,10 +16,16 @@ class AddTodoFormContent extends StatelessWidget {
           TextField(
             controller: titleController,
             decoration: const InputDecoration(labelText: 'Título'),
+            onChanged: (v) {
+              bookingBloc?.setTitle(v);
+            },
           ),
           TextField(
             controller: descriptionController,
             decoration: const InputDecoration(labelText: 'Descripción'),
+            onChanged: (v) {
+              bookingBloc?.setDescription(v);
+            },
           ),
           StreamBuilder<DateTime>(
               stream: bookingBloc?.dateStream,

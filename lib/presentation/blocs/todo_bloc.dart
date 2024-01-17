@@ -14,12 +14,16 @@ class BookingBloc {
   final _todoController = BehaviorSubject<Todo>();
   final _stateController = BehaviorSubject<TodoState>();
   final _dateController = BehaviorSubject<DateTime>();
+  final _titleController = BehaviorSubject<String>();
+  final _descriptionController = BehaviorSubject<String>();
 
   // Stream para escuchar la lista de todos
   Stream<List<Todo>> get todosStream => _todosController.stream;
   Stream<Todo> get todoStream => _todoController.stream;
   Stream<TodoState> get stateStream => _stateController.stream;
   Stream<DateTime> get dateStream => _dateController.stream;
+  Stream<String> get titleStream => _titleController.stream;
+  Stream<String> get descriptionStream => _descriptionController.stream;
 
   BookingBloc({
     required this.addTodo,
@@ -28,12 +32,24 @@ class BookingBloc {
   }) {
     // Inicializar la lista de todos
     _loadTodos();
-    _dateController.add( DateTime.now());
+    _dateController.add(DateTime.now());
   }
 
 // Método para agregar un nuevo valor al stream
   void setDate(DateTime newDate) {
     _dateController.sink.add(newDate);
+  }
+
+  void setTitle(String title) {
+    _titleController.sink.add(title);
+  }
+
+  void setDescription(String description) {
+    _descriptionController.sink.add(description);
+  }
+
+  void setTodo(Todo todo) {
+    _todoController.sink.add(todo);
   }
 
   // Método para cargar todos
@@ -51,7 +67,13 @@ class BookingBloc {
   }
 
   // Método para guardar un nuevo todo
-  void saveTodo(Todo todo) async {
+  void saveTodo() async {
+    Todo todo = Todo(
+      status: "ff",
+        date: _dateController.value.toString(),
+        description: _descriptionController.value,
+        title: _titleController.value);
+        
     try {
       await addTodo.call(todo);
       _loadTodos(); // Recargar la lista después de guardar
