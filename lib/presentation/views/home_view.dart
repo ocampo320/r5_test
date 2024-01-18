@@ -67,6 +67,8 @@ class _HomeViewState extends State<HomeView> {
                   itemCount: todos.length,
                   itemBuilder: (context, index) {
                     return CustomTodoCardWidget(
+                      bookingBloc:bookingBloc ,
+                      onChanged: (v){},
                       todo: todos[index],
                       onTap: () {
                         showDialog(

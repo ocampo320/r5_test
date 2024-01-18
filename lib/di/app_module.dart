@@ -4,9 +4,11 @@ import 'package:r5_test/domain/repositories/delete_todo_imp.dart';
 import 'package:r5_test/domain/repositories/get_todo_imp.dart';
 import 'package:r5_test/domain/repositories/repository.dart';
 import 'package:r5_test/domain/repositories/repository_impl.dart';
+import 'package:r5_test/domain/repositories/update_todo_imp.dart';
 import 'package:r5_test/domain/usecase/add_todo.dart';
 import 'package:r5_test/domain/usecase/delete_todo.dart';
 import 'package:r5_test/domain/usecase/get_todo.dart';
+import 'package:r5_test/domain/usecase/update_todo.dart';
 import 'package:r5_test/presentation/blocs/todo_bloc.dart';
 
 class AppModule {
@@ -25,6 +27,9 @@ class AppModule {
   AddTodo provideAddTodo(Repository repository) {
     return AddTodoImpl(repository);
   }
+  UpdateTodo provideUpdateTodo(Repository repository) {
+    return UpdateTodoImpl(repository);
+  }
 
   DeleteTodo provideDeleteTodo(Repository repository) {
     return DeleteTodoImpl(repository);
@@ -40,6 +45,7 @@ RemoteDataSource provideRemoteDataSource() {
   BookingBloc provideBookingBloc() {
     final repository = provideRepository(provideRemoteDataSource());
     return BookingBloc(
+      updateTodo:provideUpdateTodo(repository) ,
       getTodos: provideGetTodos(repository),
       addTodo: provideAddTodo(repository),
       deleteTodo: provideDeleteTodo(repository),

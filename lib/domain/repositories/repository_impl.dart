@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:r5_test/common_failure.dart';
 import 'package:r5_test/data/data_source/remote_data_source.dart';
@@ -46,10 +47,22 @@ class RepositoryImpl implements Repository {
       return left(CommonFailure.data(message: e.toString()));
     }
   }
+  
+  @override
+  Future<Either<CommonFailure, bool>> updateTodo(String documentId,String fieldName, value) async{
+    try {
+    // Obtén una referencia al documento que deseas actualizar
+    final DocumentReference documentReference = FirebaseFirestore.instance.collection('tu_coleccion').doc(documentId);
+    // Actualiza solo el campo especificado utilizando SetOptions con merge: true
+    await documentReference.set({fieldName: value}, SetOptions(merge: true));
+     return const Right(true); 
+  } catch (e) {
+     return left(CommonFailure.data(message: e.toString()));
+  }
+  }
 }
 
 @override
 Future<Either<CommonFailure, List<Todo>>> getTodos() {
-  // TODO: implement getTodos
   throw UnimplementedError();
 }

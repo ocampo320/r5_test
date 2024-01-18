@@ -6,4 +6,5 @@ abstract class Repository {
   Future<Either<CommonFailure, List<Todo>>> getTodos();
  Future<Either<CommonFailure, bool>> addTodo(Todo todo);
  Future<Either<CommonFailure, bool>> deleteTodo(String todo);
+ Future<Either<CommonFailure, bool>> updateTodo(String  documentId,String fieldName, dynamic value);
 }
