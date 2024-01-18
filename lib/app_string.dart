@@ -12,5 +12,8 @@ class AppStrings {
   static const String booking = 'Reservar';
   static const String noElements = 'No hay elementos en la lista';
   static const String cancel = 'Cancelar';
+  static const String done = 'completada';
+  static const String waiting = 'pendiente';
+  
   
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:r5_test/app_string.dart';
 import 'package:r5_test/date_util.dart';
 import 'package:r5_test/domain/entities/todo.dart';
 import 'package:r5_test/domain/usecase/add_todo.dart';
@@ -42,7 +43,6 @@ class BookingBloc {
     _loadTodos();
     _dateController.add(DateTime.now());
     _checkboxController.add(false);
-    
   }
 
 // Método para agregar un nuevo valor al stream
@@ -53,7 +53,7 @@ class BookingBloc {
   // Método para agregar un nuevo valor al stream
   void setCheckBox(bool value, String id) {
     _checkboxController.sink.add(value);
-   updateTodos(id, value);
+    updateTodos(id, value);
   }
 
   void setTitle(String title) {
@@ -76,7 +76,6 @@ class BookingBloc {
         final List<Todo> todosResponse =
             r.map((data) => Todo.fromJson(data.toJson())).toList();
         _todosController.add(todosResponse);
-       
       });
     } catch (error) {
       _stateController.add(TodoState.error("Error al cargar los todos"));
@@ -107,14 +106,14 @@ class BookingBloc {
       String valueToUpdate = "";
 
       if (value == true) {
-        valueToUpdate = "completada";
+        valueToUpdate = AppStrings.done;
       } else {
-        valueToUpdate = "pendiente";
+        valueToUpdate = AppStrings.waiting;
       }
 
       await updateTodo.call(idDocument, "status",
           valueToUpdate); // Recargar la lista después de guardar
-           _loadTodos();
+      _loadTodos();
     } catch (error) {
       // Manejar errores según tu lógica de la aplicación
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:r5_test/app_string.dart';
 import 'package:r5_test/domain/entities/todo.dart';
 import 'package:r5_test/presentation/blocs/todo_bloc.dart';
 import 'package:r5_test/presentation/views/home_view.dart';
@@ -28,7 +29,7 @@ class _CustomTodoCardWidgetState extends State<CustomTodoCardWidget> {
   @override
   void initState() {
     super.initState();
-     isChecked = widget.todo.status == "completada";
+     isChecked = widget.todo.status ==AppStrings.done;
   }
 
   @override
