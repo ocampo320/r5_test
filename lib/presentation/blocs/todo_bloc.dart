@@ -53,7 +53,7 @@ class BookingBloc {
   // Método para agregar un nuevo valor al stream
   void setCheckBox(bool value, String id) {
     _checkboxController.sink.add(value);
-    updateTodos(id, value);
+   updateTodos(id, value);
   }
 
   void setTitle(String title) {
@@ -88,7 +88,7 @@ class BookingBloc {
     var id = FirebaseFirestore.instance.collection('tu_coleccion').doc().id;
     Todo todo = Todo(
         id: id,
-        status: "Active",
+        status: "",
         date: DateUtils.formatDate(_dateController.value),
         description: _descriptionController.value,
         title: _titleController.value);
@@ -114,6 +114,7 @@ class BookingBloc {
 
       await updateTodo.call(idDocument, "status",
           valueToUpdate); // Recargar la lista después de guardar
+           _loadTodos();
     } catch (error) {
       // Manejar errores según tu lógica de la aplicación
     }

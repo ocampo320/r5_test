@@ -1,54 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:r5_test/domain/entities/todo.dart';
 import 'package:r5_test/presentation/blocs/todo_bloc.dart';
+import 'package:r5_test/presentation/views/home_view.dart';
 import 'package:r5_test/presentation/widgets/custom_check_box_widget.dart';
 
-class CustomTodoCardWidget extends StatelessWidget {
+class CustomTodoCardWidget extends StatefulWidget {
   final Todo todo;
   final VoidCallback? onTap;
   final ValueChanged<bool> onChanged;
   final BookingBloc? bookingBloc;
 
-  const CustomTodoCardWidget(
-      {super.key,
-      required this.todo,
-      this.onTap,
-      required this.onChanged,
-      this.bookingBloc});
+  const CustomTodoCardWidget({
+    Key? key,
+    required this.todo,
+    this.onTap,
+    required this.onChanged,
+    this.bookingBloc,
+  }) : super(key: key);
+
+  @override
+  _CustomTodoCardWidgetState createState() => _CustomTodoCardWidgetState();
+}
+
+class _CustomTodoCardWidgetState extends State<CustomTodoCardWidget> {
+  late bool isChecked;
+
+  @override
+  void initState() {
+    super.initState();
+     isChecked = widget.todo.status == "completada";
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
       child: ListTile(
-        trailing: StreamBuilder<bool>(
-            initialData: false,
-            stream: bookingBloc?.checkBoxStream,
-            builder: (context, snapshot) {
-              bool isChecked=false;
-              if (todo.status == "") {
-                bool isChecked = snapshot.data ?? false;
-              } else {
-                if (todo.status == "completada") {
-                  isChecked = true;
-                } else {
-                   isChecked = true;
-                }
-              }
-
-              return CustomCheckbox(
-                value: isChecked!,
-                onChanged: (value) {
-                  bookingBloc?.setCheckBox(value, todo.id ?? "");
-                },
-              );
-            }),
+        trailing: CustomCheckbox(
+          value: isChecked,
+          onChanged: (value) {
+            setState(() {
+              isChecked =   value;
+              bookingBloc?.setCheckBox(value, widget.todo.id ?? "");
+            });
+            widget.onChanged(value);
+          },
+        ),
         leading: GestureDetector(
-          onTap: onTap,
+          onTap: widget.onTap,
           child: const Icon(Icons.delete),
         ),
         title: Text(
-          todo.title ?? "",
+          widget.todo.title ?? "",
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -58,17 +61,17 @@ class CustomTodoCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              todo.description ?? "",
+              widget.todo.description ?? "",
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 8),
             Text(
-              'Status: ${todo.status}',
+              'Status: ${widget.todo.status}',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
             const SizedBox(height: 8),
             Text(
-              'Date: ${todo.date}',
+              'Date: ${widget.todo.date}',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
           ],
